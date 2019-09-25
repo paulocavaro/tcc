@@ -4,8 +4,8 @@ exports.up = function(knex, Promise) {
         table.string('nome').notNull()
         table.integer('estoque').notNull()
         table.integer('posicao').notNull()
-        table.string('loginUsuario').references('login').inTable('usuarios')
-        table.string('idModulo').references('id').inTable('modulos')
+        table.integer('idUsuario').references('id').inTable('usuarios').notNull()
+        table.string('idModulo').references('id').inTable('modulos').notNull()
     })
 };
 

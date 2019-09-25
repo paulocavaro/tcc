@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
         table.string('name').notNull()
         table.string('topico').notNull()
         table.string('topicoRetorno').notNull()
-        table.string('loginUsuario').references('login').inTable('usuarios')
+        table.integer('idUsuario').references('id').inTable('usuarios').notNull()
     })
 };
   
