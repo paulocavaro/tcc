@@ -48,10 +48,10 @@ module.exports = app => {
     }
 
     const getById = async (req,res) => { //pega um usuario especifico 
-        app.db('usuarios')
-            .select('id', 'nome', 'email')
+        app.db('modulos')
+            .select('id','nome','topico','topicoRetorno','idUsuario')
             .where({id: req.params.id}).first()
-            .then(usuario => res.json(usuario))
+            .then(modulo => res.json(modulo))
             .catch(err => res.status(500).send(err))
     }
 
