@@ -1,7 +1,7 @@
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('modulos', table => {
-        table.string('id').primary()
-        table.string('name').notNull()
+        table.increments('id').primary()
+        table.string('nome').notNull()
         table.string('topico').notNull()
         table.string('topicoRetorno').notNull()
         table.integer('idUsuario').references('id').inTable('usuarios').notNull()

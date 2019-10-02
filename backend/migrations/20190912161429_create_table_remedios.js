@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
         table.integer('estoque').notNull()
         table.integer('posicao').notNull()
         table.integer('idUsuario').references('id').inTable('usuarios').notNull()
-        table.string('idModulo').references('id').inTable('modulos').notNull()
+        table.integer('idModulo').references('id').inTable('modulos').notNull()
     })
 };
 

@@ -39,12 +39,12 @@ module.exports = app => {
             app.db('usuarios')
                 .update(usuario)
                 .where({id:usuario.id})
-                .then(_ => res.status(204).send())
+                .then(() => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else { //se nao existir, ele da um insert desse objeto usuario dentro do banco na tabela de usuarios
             app.db('usuarios')
                 .insert(usuario)
-                .then(_ => res.status(204).send())
+                .then(() => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
     }
