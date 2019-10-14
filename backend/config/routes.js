@@ -14,4 +14,14 @@ module.exports = app => {
     app.route('/users/:idUsuario/modulos/:id')
         .put(app.api.modulos.save)
         .get(app.api.modulos.getById)
+        .delete(app.modulos.remove)
+
+    app.rout('/users/:idUsuario/modulos/:idModulo/remedios')
+        .post(app.api.remedios.save)
+        .get(app.api.remedios.get)
+    
+    app.rout('/users/:idUsuario/modulos/:idModulo/remedios/:id')
+        .put(app.api.remedios.save)
+        .get(app.api.remedios.getById)
+        .delete(app.api.remedios.remove)
 }

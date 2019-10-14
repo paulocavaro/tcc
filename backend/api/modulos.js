@@ -1,4 +1,4 @@
-const mqtt = require('./mqtt.js')
+// const mqtt = require('./mqtt.js')
 module.exports = app => {
 
     const { existsOrError, notExistsOrError, equalsOrError } = app.api.validation //chama as funcoes de validacao la do codigo validation.js, colocado no app pelo consign
@@ -47,7 +47,7 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    const getById = async (req,res) => { //pega um usuario especifico 
+    const getById = async (req,res) => { //pega um modulo especifico 
         app.db('modulos')
             .select('id','nome','topico','topicoRetorno','idUsuario')
             .where({id: req.params.id}).first()
@@ -55,5 +55,25 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, get, getById }
+    const remove = async (req,res) => {
+        try {
+            existsOrError(req.params.id, "ID do modulo nao informado")
+
+            const remedio = app.db('remedios')
+                .where({ idModulo: req.params.id })
+            notExistsOrError(remedio,"O modulo possui remedios associados")
+
+            const remedioDeletado = app.db('modulos')
+                .where({ id: req.params.id }).del()
+            existsOrError(remedioDeletado,"Modulo nao encontrado") //se ele deletou alguma coisa, o remedioDeletado vai ter um valor, logo ele deve existir
+
+            res.status(204).send()
+        }
+        catch(msg){
+            res.status(400).send(msg)
+        }
+
+    }
+
+    return { save, get, getById, remove }
 }
