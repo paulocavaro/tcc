@@ -31,7 +31,7 @@ module.exports = app => {
         } catch(msg){
             return res.status(400).send(msg) //o catch fica encarregado de imprimir esse erro
         }
-
+        const teste = 0
         usuario.senha = encryptPassword(usuario.senha) //criptografando a senha do usuario
         delete usuario.confirmSenha //deletando a confirmacao de senha, pois n vamos armazena-la no banco
 
@@ -44,7 +44,12 @@ module.exports = app => {
         } else { //se nao existir, ele da um insert desse objeto usuario dentro do banco na tabela de usuarios
             app.db('usuarios')
                 .insert(usuario)
-                .then(() => res.status(204).send())
+                .returning('id')
+                .then((id) => {
+                    this.teste = id[0]
+                    console.log(this.teste)
+                    res.status(204).send()
+                })
                 .catch(err => res.status(500).send(err))
         }
     }

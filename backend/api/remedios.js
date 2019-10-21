@@ -47,7 +47,7 @@ module.exports = app => {
 
     const remove = async (req,res) => {
         app.db('remedios')
-            .delete()
+         .where({ id: req.params.id }).del()
     }
 
     return { save, get, getById, remove }
