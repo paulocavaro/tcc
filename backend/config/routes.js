@@ -43,4 +43,7 @@ module.exports = app => {
         .put(app.api.recorrencias.save)
     //     .getById(app.api.recorrencias.getById)
     //     .delete(app.api.recorrencias.delete)
+
+    app.route('/stats/:id')
+        .get(app.api.stat.get)
 }
