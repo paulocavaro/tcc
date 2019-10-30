@@ -24,7 +24,6 @@ module.exports = app => {
 
         if(recorrencia.id){
             try{
-                console.log('bu')
                 const recorrenciaAtualizada = await app.db('recorrencias') // aqui ele coloca os novos dados na recorrencia que ja existe no banco
                     .where({id: recorrencia.id})
                     .update(recorrencia)
@@ -101,5 +100,17 @@ module.exports = app => {
         }
     }
 
-    return { save }
+    const getByRemedio = async (req,res) => {
+        const recorrencias = await app.db('recorrencias')
+            .select('id','horaInicio', 'frequencia', 'dia')
+            .where({idRemedio: req.params.idRemedio}).first()
+        console.log(recorrencias)
+
+        
+
+        res.status(200).send()
+        
+    }
+
+    return { save, getByRemedio }
 }

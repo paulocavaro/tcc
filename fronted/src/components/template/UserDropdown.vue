@@ -9,9 +9,9 @@
         </div>
         <div class="user-dropdown-content">
             <router-link to="/admin">
-                <i class="fa fa-cogs">Configurações </i>
+                <i class="fa fa-cogs"/>Configurações
             </router-link>
-            <a href><i class="fa fa-sign-out">Sair</i></a>
+            <a href><i class="fa fa-sign-out"/>Sair</a>
         </div>
     </div>
 </template>
@@ -83,6 +83,10 @@ export default {
         text-decoration: none;
         color: #000;
         padding: 10px;
+    }
+
+    .user-dropdown-content i{
+        margin-right: 4px;
     }
 
     .user-dropdown-content a:hover {

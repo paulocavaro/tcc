@@ -43,6 +43,7 @@ module.exports = app => {
     const get = async (req,res) => {
        app.db('modulos')
             .select('id','nome','topico','topicoRetorno','idUsuario')
+            .where({idUsuario: req.params.idUsuario})
             .then(modulo => res.json(modulo))
             .catch(err => res.status(500).send(err))
     }
@@ -59,11 +60,11 @@ module.exports = app => {
         try {
             existsOrError(req.params.id, "ID do modulo nao informado")
 
-            const remedio = app.db('remedios')
+            const remedio = await app.db('remedios')
                 .where({ idModulo: req.params.id })
             notExistsOrError(remedio,"O modulo possui remedios associados")
 
-            const remedioDeletado = app.db('modulos')
+            const remedioDeletado = await app.db('modulos')
                 .where({ id: req.params.id }).del()
             existsOrError(remedioDeletado,"Modulo nao encontrado") //se ele deletou alguma coisa, o remedioDeletado vai ter um valor, logo ele deve existir
 

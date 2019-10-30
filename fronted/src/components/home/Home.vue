@@ -2,11 +2,11 @@
     <div class="home">
         <PageTitle icon="fa fa-home" main="Dashboard"
         sub="Tcc em desenvolvimento" />
-        <div class="stat">
+        <div class="stats">
             <Stat title="Modulos" :value="stat.modulos"
-                icon="fa fa-folder" color="#d54d50"/>
+                icon="fa fa-tablet" color="#6c757d"/>
             <Stat title="Remedios" :value="stat.remedios"
-                icon="fa fa-user" color="#3282cd"/>    
+                icon="fa fa-medkit" color="#3282cd"/>    
         </div>
     </div>
 </template>
@@ -28,9 +28,9 @@ export default {
     methods: {
         getStats(){
             axios.get(`${baseApiUrl}/stats/1`).then(res => {
-                console.log(res)
-                const modulosLength = res.modulos.length
-                const remediosLength = res.remedios.length
+                //console.log(res)
+                const modulosLength = res.data.modulos.length
+                const remediosLength = res.data.remedios.length
                 this.stat = { 
                     modulos: modulosLength,
                     remedios: remediosLength
@@ -45,5 +45,9 @@ export default {
 </script>
 
 <style>
-
+    .stats {
+        display: flex;
+        justify-content:space-between;
+        flex-wrap: wrap; 
+    }
 </style>
