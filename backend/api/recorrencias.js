@@ -40,14 +40,14 @@ module.exports = app => {
                 const recorrenciaAtualizada = await app.db('recorrencias') // aqui ele coloca os novos dados na recorrencia que ja existe no banco
                     .where({id: recorrencia.id})
                     .update(recorrencia)
-                console.log(recorrenciaAtualizada)
+                
                 const apagandoHorariosAntigos = await app.db('horarios') // apago todos os horarios referentes a essa recorrencia para isnerir novos horarios
                     .where({idRecorrencia: recorrencia.id}).del()
 
                 if(recorrenciaAtualizada){ //depois que atualizar os dados de recorrencia e apagar os dados dos hoarios antigos
                     const horaInicioInt = parseInt(recorrencia.horaInicio)
-                    console.log(horaInicioInt)
-                    for(var i=horaInicioInt ; i<(horaInicioInt+24) ; i+=recorrencia.frequencia){
+                    
+                    for(var i=horaInicioInt ; i<(horaInicioInt+24) ; i+=parseInt(recorrencia.frequencia)){
                         //faz um for pra pegar do horario de inicio ate o outro dia, completando 24h
                         var hora = i
                         if (hora>24){
@@ -82,7 +82,7 @@ module.exports = app => {
                     
                 const horaInicioInt = parseInt(recorrencia.horaInicio)
                 if(recorrenciaInserida){
-                    for(var i=horaInicioInt ; i<(horaInicioInt+24) ; i+=recorrencia.frequencia){
+                    for(var i=horaInicioInt ; i<(horaInicioInt+24) ; i+=parseInt(recorrencia.frequencia)){
                         //faz um for pra pegar do horario de inicio ate o outro dia, completando 24h
                         var hora = i
                         if (hora>24){
@@ -118,10 +118,13 @@ module.exports = app => {
         for(let i=0;i<remedios.length;i++){
             const recorrencia = await app.db('recorrencias')
                 .where({idRemedio: remedios[i].id})
-            if(Object.keys(recorrencia).length !== 0){
+                
+            // if(Object.keys(recorrencia).length !== 0){
+                if(recorrencia.length!==0){ 
                 recorrencias.push(recorrencia[0])
             } 
         }
+        
         res.json(recorrencias)
     }
 
