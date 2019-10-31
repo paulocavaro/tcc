@@ -51,7 +51,8 @@ module.exports = app => {
     const getById = async (req,res) => { //pega um modulo especifico 
         app.db('modulos')
             .select('id','nome','topico','topicoRetorno','idUsuario')
-            .where({id: req.params.id}).first()
+            .where({id: req.params.id,
+                idUsuario: req.params.idUsuario}).first()
             .then(modulo => res.json(modulo))
             .catch(err => res.status(500).send(err))
     }

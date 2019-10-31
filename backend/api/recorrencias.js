@@ -10,13 +10,26 @@ module.exports = app => {
     const save = async (req,res) => {
         
         const recorrencia = {... req.body }
-        recorrencia.idRemedio = req.params.idRemedio
+        //recorrencia.idRemedio = req.params.idRemedio
+        idUsuario = req.params.idUsuario
         if(req.params.id) recorrencia.id = req.params.id
 
         try {
             existsOrError(recorrencia.horaInicio,'Hora de inicio nao informada')
             existsOrError(recorrencia.frequencia,'Frequencia nao informada')
             existsOrError(recorrencia.dia,'Dias nao informados')
+            existsOrError(recorrencia.idRemedio,'Informe ID do Remedio')
+
+            if(!recorrencia.id){ 
+                const remedioPercenteUsuario = await app.db('remedios')
+                    .where({idUsuario: idUsuario,
+                        id: recorrencia.idRemedio}).first()
+                existsOrError(remedioPercenteUsuario, 'Esse remedio nao pertence ao usuario ou nao existe')
+                
+                const recorrenciaExistente = await app.db('recorrencias')
+                    .where({idRemedio: recorrencia.idRemedio})
+                notExistsOrError(recorrenciaExistente,'Esse remedio ja possui recorrencia')
+            }
         }        
         catch (msg) {
             return res.status(400).send(msg)
@@ -27,17 +40,13 @@ module.exports = app => {
                 const recorrenciaAtualizada = await app.db('recorrencias') // aqui ele coloca os novos dados na recorrencia que ja existe no banco
                     .where({id: recorrencia.id})
                     .update(recorrencia)
- 
+                console.log(recorrenciaAtualizada)
                 const apagandoHorariosAntigos = await app.db('horarios') // apago todos os horarios referentes a essa recorrencia para isnerir novos horarios
                     .where({idRecorrencia: recorrencia.id}).del()
 
                 if(recorrenciaAtualizada){ //depois que atualizar os dados de recorrencia e apagar os dados dos hoarios antigos
-                    
-                    // const rec = await app.db('recorrencias') //pega o dado da recorrencia atualizada
-                    //     .select('horaInicio','frequencia')
-                    //     .where({id: recorrencia.id})
-                    //     .first()    NAO PRECISA DESSA PARTE, JA QUE OS DADOS JA TAO NA VARIAVEL recorrencia QUE ESTAMOS USANDO PARA ATUALIZAR
                     const horaInicioInt = parseInt(recorrencia.horaInicio)
+                    console.log(horaInicioInt)
                     for(var i=horaInicioInt ; i<(horaInicioInt+24) ; i+=recorrencia.frequencia){
                         //faz um for pra pegar do horario de inicio ate o outro dia, completando 24h
                         var hora = i
@@ -50,10 +59,10 @@ module.exports = app => {
                             horario: ""+hora
                         }
                         
-                        app.db('horarios')
+                        await app.db('horarios')
                         .insert(data)
-                        .then(() => console.log('fazendo'))  
-                        .catch(err => console.log('ta dando erro'+err))
+                        // .then(() => {})  
+                        // .catch(err => {})
                         
                     }                        
                 }
@@ -85,10 +94,10 @@ module.exports = app => {
                             horario: ""+hora
                         }
                         
-                        app.db('horarios')
+                        await app.db('horarios')
                         .insert(data)
-                        .then(() => console.log('fazendo'))  
-                        .catch(err => console.log('ta dando erro'+err))
+                        // .then(() => console.log('fazendo'))  
+                        // .catch(err => console.log('ta dando erro'+err))
                     }                        
                 }
                 res.status(204).send()
@@ -100,17 +109,36 @@ module.exports = app => {
         }
     }
 
-    const getByRemedio = async (req,res) => {
-        const recorrencias = await app.db('recorrencias')
-            .select('id','horaInicio', 'frequencia', 'dia')
-            .where({idRemedio: req.params.idRemedio}).first()
-        console.log(recorrencias)
+    const getByRemedios = async (req,res) => {
 
+        const remedios = await app.db('remedios')
+            .where({idUsuario: req.params.idUsuario})
         
-
-        res.status(200).send()
-        
+        const recorrencias = []
+        for(let i=0;i<remedios.length;i++){
+            const recorrencia = await app.db('recorrencias')
+                .where({idRemedio: remedios[i].id})
+            if(Object.keys(recorrencia).length !== 0){
+                recorrencias.push(recorrencia[0])
+            } 
+        }
+        res.json(recorrencias)
     }
 
-    return { save, getByRemedio }
+    const remove = async (req,res) => {
+        try{
+            const diasDeletados = await app.db('horarios')
+            .where({idRecorrencia: req.params.id}).del()
+
+            const recorrenciaDeletada = await app.db('recorrencias')
+            .where({id: req.params.id}).del()
+            existsOrError(recorrenciaDeletada,'Recorrencia nao existe')
+
+            res.status(204).send()
+        }catch(msg){
+            res.status(500).send(msg)
+        }
+    }
+
+    return { save, getByRemedios, remove }
 }

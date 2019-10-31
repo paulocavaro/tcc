@@ -15,5 +15,5 @@ Vue.toasted.register(
 Vue.toasted.register(
     'defaultError',
     payload => !payload.msg ? 'Ops... Erro inesperado' : payload.msg, //callback que retorna alguma msg de erro, caso n ele imprime essa personalizada
-    {type: 'sucess', icon: 'check'} //tipo e icone pra usar na msg
+    {type: 'error', icon: 'times'} //tipo e icone pra usar na msg
 )

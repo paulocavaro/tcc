@@ -17,6 +17,7 @@
                 @click="remove">Excluir</b-button>
             <b-button class="ml-2" @click="reset">Cancelar</b-button>
         </b-form>
+        <br>
         <b-table hover striped :items="modulos" :fields="fields">
             <template slot="actions" slot-scope="data">
                 <b-button variant="warning" @click="loadModulo(data.item)" class="mr-2">
@@ -33,6 +34,7 @@
 <script>
 import { baseApiUrl, showError } from "@/global"
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
     name: "ModulosAdmin",
@@ -48,13 +50,12 @@ export default {
             ]
         }
     },
-
+    computed: mapState(['user']),
     methods: {
         loadModulos() {
-            const url = `${baseApiUrl}/users/1/modulos`
+            const url = `${baseApiUrl}/users/${this.user.id}/modulos`
             axios.get(url).then(res => {
                 this.modulos = res.data
-                // console.log(this.modulos)
             })
         },
         reset() {
@@ -65,7 +66,7 @@ export default {
         save() {
             const method = this.modulo.id ? 'put' : 'post'
             const id = this.modulo.id ? `/${this.modulo.id}` : ''
-            axios[method](`${baseApiUrl}/users/1/modulos${id}`, this.modulo)
+            axios[method](`${baseApiUrl}/users/${this.user.id}/modulos${id}`, this.modulo)
                 .then(() => {
                     this.$toasted.global.defaultSucess()
                     this.reset()
@@ -73,7 +74,7 @@ export default {
         },
         remove(){
             const id = this.modulo.id 
-            axios.delete(`${baseApiUrl}/users/1/modulos/${id}`)
+            axios.delete(`${baseApiUrl}/users/${this.user.id}/modulos/${id}`)
                 .then(() => {
                     this.$toasted.global.defaultSucess()
                     this.reset()

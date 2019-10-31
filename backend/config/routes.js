@@ -25,23 +25,24 @@ module.exports = app => {
         .get(app.api.modulos.getById)
         .delete(app.api.modulos.remove)
 
-    app.route('/users/:idUsuario/modulos/:idModulo/remedios')
+    app.route('/users/:idUsuario/remedios')
         .all(app.config.passport.authenticate())
         .post(app.api.remedios.save)
         .get(app.api.remedios.get)
     
-    app.route('/users/:idUsuario/modulos/:idModulo/remedios/:id')
+    app.route('/users/:idUsuario/remedios/:id')
         .all(app.config.passport.authenticate())
         .put(app.api.remedios.save)
         .get(app.api.remedios.getById)
         .delete(app.api.remedios.remove)
     
-    app.route('/remedios/:idRemedio/recorrencia')
+    app.route('/users/:idUsuario/recorrencias')
         .post(app.api.recorrencias.save)
-        .get(app.api.recorrencias.getByRemedio)
+        .get(app.api.recorrencias.getByRemedios)
 
-    app.route('/remedios/:idRemedio/recorrencia/:id')
+    app.route('/users/:idUsuario/recorrencias/:id')
         .put(app.api.recorrencias.save)
+        .delete(app.api.recorrencias.remove)
 
     app.route('/stats/:id')
         .get(app.api.stat.get)

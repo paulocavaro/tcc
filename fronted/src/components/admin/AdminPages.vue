@@ -14,6 +14,9 @@
                 <b-tab title="Remedios">
                     <RemediosAdmin/>
                 </b-tab>  
+                <b-tab title="Recorrencias">
+                    <RecorrenciasAdmin/>
+                </b-tab>  
                 </b-tabs>        
             </b-card>
         </div>
@@ -24,11 +27,12 @@
 import PageTitle from '../template/PageTitle'
 import ModulosAdmin from './ModulosAdmin'
 import RemediosAdmin from './RemediosAdmin'
+import RecorrenciasAdmin from './RecorrenciasAdmin'
 import UserAdmin from './UserAdmin'
 
 export default {
     name: "AdminPages",
-    components: { PageTitle,ModulosAdmin,RemediosAdmin,UserAdmin },
+    components: { PageTitle,ModulosAdmin,RemediosAdmin,UserAdmin,RecorrenciasAdmin },
 }
 </script>
 

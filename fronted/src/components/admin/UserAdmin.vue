@@ -34,12 +34,12 @@
                     </b-form-group>
                 </b-col>
             </b-row>
+            <b-button variant="primary" v-if="mode=== ''"
+                    @click="mode = 'save'">Editar</b-button>
+            <b-button variant="primary" v-if="mode=== 'save'"
+                    @click="save">Salvar</b-button>
+            <b-button class="ml-2" v-if="mode=== 'save'" @click="reset">Cancelar</b-button>
         </b-form>
-        <b-button variant="primary" v-if="mode=== ''"
-                @click="mode = 'save'">Editar</b-button>
-        <b-button variant="primary" v-if="mode=== 'save'"
-                @click="save">Salvar</b-button>
-        <b-button class="ml-2" v-if="mode=== 'save'" @click="reset">Cancelar</b-button>
     </div>
 </template>
 
