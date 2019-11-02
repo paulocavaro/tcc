@@ -1,5 +1,16 @@
 <template>
-    <aside class="menu" v-show="isMenuVisible"></aside>
+    <aside class="menu" v-show="isMenuVisible">
+
+        <router-link to="/modulos">
+                <div class="teste">modulos</div> 
+        </router-link>
+        <router-link to="/remedios">
+                <div class="color">remedios</div> 
+        </router-link>
+        <router-link to="/recorrencias">
+                <div class="color">recorrencias</div> 
+        </router-link>
+    </aside>
 </template>
 
 <script>
@@ -8,7 +19,6 @@ import { mapState } from 'vuex'
 
 export default {
     name: "Menu",
-
     computed: mapState(['isMenuVisible'])
 }
 </script>
@@ -21,6 +31,21 @@ export default {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
+        align-items: center;
+        /* justify-content: center; */
+    }
 
+    .teste {
+        color: white;
+        text-decoration: none
+    }
+
+    .teste:first-child{
+        margin-top: 50px;
+    }
+
+    .color{
+        color: aliceblue;
+        text-decoration: none;
     }
 </style>

@@ -6,7 +6,9 @@
             <Stat title="Modulos" :value="stat.modulos"
                 icon="fa fa-tablet" color="#6c757d"/>
             <Stat title="Remedios" :value="stat.remedios"
-                icon="fa fa-medkit" color="#3282cd"/>    
+                icon="fa fa-medkit" color="#3282cd"/> 
+            <Stat title="Recorrencias" :value="stat.recorrencias"
+                icon="fa fa-clock-o" color="#343a40"/>  
         </div>
     </div>
 </template>
@@ -15,6 +17,7 @@
 import PageTitle from '../template/PageTitle'
 import Stat from './Stat'
 import axios from 'axios'
+import { mapState } from 'vuex'
 import { baseApiUrl } from '@/global'
 
 export default {
@@ -25,15 +28,17 @@ export default {
             stat: {}
         }
     },
+    computed: mapState(['user']),
     methods: {
         getStats(){
-            axios.get(`${baseApiUrl}/stats/1`).then(res => {
-                //console.log(res)
+            axios.get(`${baseApiUrl}/stats/${this.user.id}`).then(res => {
                 const modulosLength = res.data.modulos.length
                 const remediosLength = res.data.remedios.length
+                const recorrenciasLength = res.data.recorrencias.length
                 this.stat = { 
                     modulos: modulosLength,
-                    remedios: remediosLength
+                    remedios: remediosLength,
+                    recorrencias: recorrenciasLength
                     }
             })
         }

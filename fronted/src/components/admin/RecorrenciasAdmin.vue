@@ -98,7 +98,6 @@ export default {
             const method = this.recorrencia.id ? 'put' : 'post'
             const id = this.recorrencia.id ? `/${this.recorrencia.id}` : ''
             this.converteDiasNumero()
-            console.log(this.recorrencia)
             axios[method](`${baseApiUrl}/users/${this.user.id}/recorrencias${id}`,this.recorrencia)
                 .then(() => {
                     this.$toasted.global.defaultSucess()
@@ -116,9 +115,7 @@ export default {
         loadRecorrencia(recorrencia, mode = 'save'){
             this.mode = mode
             this.recorrencia = {... recorrencia}
-            console.log(this.recorrencia)
             this.converteNumeroDias()
-            // console.log(this.recorrencia.dias)
         },
         converteDiasNumero() {
             const str = this.dias.reduce((arr, escolhido, index) => (escolhido && arr.push(index), arr), [])

@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 
 import Home from '@/components/home/Home' //importa o que queremos mostrar nos caminhos, no caso as paginas
 import AdminPages from '@/components/admin/AdminPages'
+import Recorrencias from '@/components/itens/Recorrencias'
+import Remedios from '@/components/itens/Remedios'
+import Modulos from '@/components/itens/Modulos'
 
 Vue.use(VueRouter) //usa o VueRouter no Vue
 
@@ -17,6 +20,24 @@ const routes = [ //cria um array de objetos dizendo o nome, o path (caminho) e o
         name: 'adminPages',
         path: '/admin',
         component: AdminPages
+    },
+
+    {
+        name: 'adminPages',
+        path: '/modulos',
+        component: Modulos
+    },
+
+    {
+        name: 'adminPages',
+        path: '/remedios',
+        component: Remedios
+    },
+
+    {
+        name: 'adminPages',
+        path: '/recorrencias',
+        component: Recorrencias
     }
 ]
 
