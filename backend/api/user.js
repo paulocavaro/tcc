@@ -45,11 +45,7 @@ module.exports = app => {
             app.db('usuarios')
                 .insert(usuario)
                 .returning('id')
-                .then((id) => {
-                    this.teste = id[0]
-                    console.log(this.teste)
-                    res.status(204).send()
-                })
+                .then(() => {res.status(204).send()})
                 .catch(err => res.status(500).send(err))
         }
     }

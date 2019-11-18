@@ -10,7 +10,7 @@ import router from './config/router'
 
 Vue.config.productionTip = false
 
-require('axios').defaults.headers.common['Authorization'] = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwibm9tZSI6InBhdWxvIiwiZW1haWwiOiJwYXVsb0BwYXVsby5jb20iLCJpYXQiOjE1NzI0NjA1MDAsImV4cCI6MTU4MTEwMDUwMH0.bFp4rXJZtN9VP1g_qighselMjInH_niaZzQHPYS0zQk'
+require('axios').defaults.headers.common['Authorization'] = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwibm9tZSI6IlBhdWxvIEx1aXoiLCJlbWFpbCI6InBhdWxvQHBhdWxvLmNvbSIsImlhdCI6MTU3NDEwOTg5OCwiZXhwIjoxNTgyNzQ5ODk4fQ.ki7GDXCs3D3vRVsEOkgpovU4nEVhwlEDJg1ldMFJO8s'
 
 new Vue({
   store,
