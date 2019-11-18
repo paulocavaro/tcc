@@ -23,19 +23,19 @@ const routes = [ //cria um array de objetos dizendo o nome, o path (caminho) e o
     },
 
     {
-        name: 'adminPages',
+        name: 'Modulos',
         path: '/modulos',
         component: Modulos
     },
 
     {
-        name: 'adminPages',
+        name: 'Remedios',
         path: '/remedios',
         component: Remedios
     },
 
     {
-        name: 'adminPages',
+        name: 'Recorrencias',
         path: '/recorrencias',
         component: Recorrencias
     }

@@ -44,6 +44,10 @@ export default {
         margin-top: 50px;
     }
 
+    .menu a:hover{
+        text-decoration: none;
+    }
+
     .color{
         color: aliceblue;
         text-decoration: none;

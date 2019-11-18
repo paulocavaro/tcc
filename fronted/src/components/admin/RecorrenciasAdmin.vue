@@ -122,6 +122,7 @@ export default {
             this.recorrencia.dia = ''+str.join('')
         },
         converteNumeroDias() {
+            this.dias = [false,false,false,false,false,false,false]
             this.recorrencia.dia = '' + this.recorrencia.dia
             for(let i=0;i<=6;i++){
                 if(this.recorrencia.dia.includes(i)){
