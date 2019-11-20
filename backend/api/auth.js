@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt-nodejs') //criptografar ou descriptografar a senh
 
 module.exports = app => {
     const signin = async (req,res) => {
-        if(!req.body.email || !req.body.password) { //ver se chegou email e senha pelo body da requisicao
+        if(!req.body.email || !req.body.senha) { //ver se chegou email e senha pelo body da requisicao
             return res.status(400).send('Informe email e senha')
         }
         
@@ -14,7 +14,7 @@ module.exports = app => {
         
         if(!usuario) return res.status(400).send('Usuário não encontrado!') //verifica se esse usuario realmente existe
 
-        const isMatch = bcrypt.compareSync(req.body.password, usuario.senha) //compara se a senha passada eh igual a senha do usuario no banco
+        const isMatch = bcrypt.compareSync(req.body.senha, usuario.senha) //compara se a senha passada eh igual a senha do usuario no banco
         //Lembrando que nao da pra fazer uma comparacao normal, ja que o que temos guardados no banco eh o hash feito pelo proprio bcrypt, entao usamos
         //uma propria funcao do bcrypt para comparar a senha
         if (!isMatch) return res.status(401).send('Email/Senha inválidos!')

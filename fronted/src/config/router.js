@@ -6,6 +6,7 @@ import AdminPages from '@/components/admin/AdminPages'
 import Recorrencias from '@/components/itens/Recorrencias'
 import Remedios from '@/components/itens/Remedios'
 import Modulos from '@/components/itens/Modulos'
+import Auth from '@/components/auth/Auth'
 
 Vue.use(VueRouter) //usa o VueRouter no Vue
 
@@ -38,6 +39,11 @@ const routes = [ //cria um array de objetos dizendo o nome, o path (caminho) e o
         name: 'Recorrencias',
         path: '/recorrencias',
         component: Recorrencias
+    },
+    {
+        name: 'auth',
+        path: '/auth',
+        component: Auth
     }
 ]
 
