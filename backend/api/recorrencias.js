@@ -1,11 +1,53 @@
 module.exports = app => {
 
     const { existsOrError, notExistsOrError, equalsOrError } = app.api.validation //chama as funcoes de validacao la do codigo validation.js, colocado no app pelo consign
+    const mqtt = require('./mqtt')
 
-    const diaAtual = new Date().getDay() //pega o dia atual. dependendo do dia, ele vai dar de 0-6
-    setInterval(() => { // reseta o valor do dia atual a cada 1 minuto
-        const diaAtual = new Date().getDay()
-    }, 60000)
+    async function verifica() {
+        const now = new Date()
+        const hora = now.getHours()
+        // pra comparar com minutos
+        const min = now.getMinutes()
+        // if(parseInt(min) < 10){
+        //     min = '0' + min
+        // }
+        const hm = hora + '.' + min // . porque é guardado como um float
+
+        // const horariosAgora = await app.db('horarios')
+        //     .select ('idRecorrencia','horario')
+        //     .where({horario: ''+hm}) 
+
+        const agora = await app.db('horarios')
+            .select('topico','posicao')
+            .where({horario: ''+hm})
+            .join('recorrencias', {'recorrencias.id': 'horarios.idRecorrencia'})
+            .join('remedios', {'remedios.id': 'recorrencias.idRemedio'})
+            .join('modulos', {'modulos.id': 'remedios.idModulo'})
+            .then(mensagens => {
+                mqtt.init().then(resutl => {
+                    console.log(mensagens)
+                    mensagens.forEach((obj,index) => {
+                        msg = `remedio na posicao ${obj.posicao}`
+                        mqtt.publish(obj.topico,msg)
+                    })
+                })
+                // for (const [topico, posicao] of mensagens) {
+                //     mqtt.publish(topico, posicao)
+                // }
+            })
+        .catch(err => {
+          console.log('Ocorreu um erro')
+          console.error(err)
+        })
+      }
+      // executa assim que foi aberto:
+      verifica()
+      // e a partir do próximo minuto,
+      setTimeout(() =>
+        // executa a cada um minuto
+        setInterval(verifica, 60000)
+      , (60 - (new Date().getSeconds())) * 1000 
+      )
 
     const save = async (req,res) => {
         
@@ -45,13 +87,16 @@ module.exports = app => {
                     .where({idRecorrencia: recorrencia.id}).del()
 
                 if(recorrenciaAtualizada){ //depois que atualizar os dados de recorrencia e apagar os dados dos hoarios antigos
-                    const horaInicioInt = parseInt(recorrencia.horaInicio)
                     
-                    for(var i=horaInicioInt ; i<(horaInicioInt+24) ; i+=parseInt(recorrencia.frequencia)){
+                    const converteString = recorrencia.horaInicio.replace(":",".")
+                    const horaInicioFloat = parseFloat(converteString)
+                    
+                    for(var i=horaInicioFloat ; i<(horaInicioFloat+24) ; i+=parseFloat(recorrencia.frequencia)){
                         //faz um for pra pegar do horario de inicio ate o outro dia, completando 24h
-                        var hora = i
+                        var hora = i.toFixed(2)
                         if (hora>24){
                             hora = hora - 24
+                            hora = hora.toFixed(2)
                         }
                         
                         const data = {
@@ -80,13 +125,16 @@ module.exports = app => {
                     .returning('id')
                     .then(id => this.novoId = id[0])
                     
-                const horaInicioInt = parseInt(recorrencia.horaInicio)
+                const converteString = recorrencia.horaInicio.replace(":",".")
+                const horaInicioFloat = parseFloat(converteString)
+                
                 if(recorrenciaInserida){
-                    for(var i=horaInicioInt ; i<(horaInicioInt+24) ; i+=parseInt(recorrencia.frequencia)){
+                    for(var i=horaInicioFloat ; i<(horaInicioFloat+24) ; i+=parseFloat(recorrencia.frequencia)){
                         //faz um for pra pegar do horario de inicio ate o outro dia, completando 24h
-                        var hora = i
+                        var hora = i.toFixed(2)
                         if (hora>24){
                             hora = hora - 24
+                            hora = hora.toFixed(2)
                         }
                         
                         const data = {

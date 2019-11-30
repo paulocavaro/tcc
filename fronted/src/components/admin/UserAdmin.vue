@@ -20,7 +20,7 @@
             </b-row>
             <b-row v-show="mode==='save'" >
                 <b-col md="6" sm="12">
-                    <b-form-group label="Senha:" label-for="user-password">
+                    <b-form-group label="Senha" label-for="user-password">
                         <b-form-input id="user-password" type="password"
                             v-model="currentUser.senha" required
                             placeholder="Informe o Senha do Usuario"/>

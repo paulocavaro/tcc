@@ -13,11 +13,12 @@ consign()
     .then('./config/routes.js')
     .into(app)
 
-mqtt.init().then(async _ => {
-    mqtt.client.on('message',(topic,data) => {
-            console.log('aqui esta ' + topic + ' ' + data)
-        })  
-}).catch(err => { console.log(err)})
+// mqtt.init().then(async _ => {
+//     mqtt.client.on('message',(topic,data) => {
+//             console.log('aqui esta ' + topic + ' ' + data)
+//         })  
+// }).catch(err => { console.log(err)})
+
 app.listen(3000, () => {
     console.log('Backend executado na porta 3000')
 })

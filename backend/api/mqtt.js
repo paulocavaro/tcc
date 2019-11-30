@@ -6,7 +6,7 @@ class MQTT{
         return new Promise((resolve,reject) => {
             this.client = mqtt.connect('mqtt://localhost')            
             this.client.on("connect",() => {
-                console.log("MQTT iniciado")
+                // console.log("MQTT iniciado")
             })            
             this.client.once('connect', () => {
                 this.client.subscribe('#') // subscribe to everything
