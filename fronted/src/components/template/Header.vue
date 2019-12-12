@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <a class="toggle" @click="toggleMenu" v-if="!hideToggle">
-            <i class="fa fa-lg" :class="icon"></i>
+            <!-- <i class="fa fa-lg" :class="icon"></i> -->
         </a>
         <h1 class="title">
             <router-link to="/">{{ title }}</router-link>

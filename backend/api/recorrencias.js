@@ -5,35 +5,30 @@ module.exports = app => {
 
     async function verifica() {
         const now = new Date()
+        const day = now.getDay()
         const hora = now.getHours()
         // pra comparar com minutos
-        const min = now.getMinutes()
-        // if(parseInt(min) < 10){
-        //     min = '0' + min
-        // }
+        var min = now.getMinutes()
+        if(parseInt(min) < 10){
+            min = '0' + min
+        }
         const hm = hora + '.' + min // . porque é guardado como um float
-
-        // const horariosAgora = await app.db('horarios')
-        //     .select ('idRecorrencia','horario')
-        //     .where({horario: ''+hm}) 
-
+        console.log(hm)
         const agora = await app.db('horarios')
-            .select('topico','posicao')
+            .select('topico','posicao','dia')
             .where({horario: ''+hm})
             .join('recorrencias', {'recorrencias.id': 'horarios.idRecorrencia'})
             .join('remedios', {'remedios.id': 'recorrencias.idRemedio'})
             .join('modulos', {'modulos.id': 'remedios.idModulo'})
             .then(mensagens => {
                 mqtt.init().then(resutl => {
-                    console.log(mensagens)
                     mensagens.forEach((obj,index) => {
-                        msg = `remedio na posicao ${obj.posicao}`
-                        mqtt.publish(obj.topico,msg)
+                        if(obj.dia.includes(""+day)){
+                            msg = `remedio na posicao ${obj.posicao} e dias: ${obj.dia}`
+                            mqtt.publish(obj.topico,msg)
+                        }
                     })
                 })
-                // for (const [topico, posicao] of mensagens) {
-                //     mqtt.publish(topico, posicao)
-                // }
             })
         .catch(err => {
           console.log('Ocorreu um erro')

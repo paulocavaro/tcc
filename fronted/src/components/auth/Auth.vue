@@ -12,8 +12,8 @@
             <button v-else @click="signin">Entrar</button>
 
             <a href @click.prevent="showSignup = !showSignup">
-                <span v-if="showSignup">Ja tem cadastro? Faca o Login</span>
-                <span v-else>Nao tem cadastro? Faca aqui</span>
+                <span v-if="showSignup">Já tem cadastro? Faça o Login</span>
+                <span v-else>Não tem cadastro? Faça aqui</span>
             </a>
         </div>
     </div>
